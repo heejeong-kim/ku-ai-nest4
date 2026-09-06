@@ -225,45 +225,81 @@
 
   <!-- 메인 콘텐츠 영역 -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
-    
-    <!-- 컨트롤 바: 탭 필터 및 검색 -->
-    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
-      <!-- 트랙 선택 탭 버튼 -->
-      <div class="flex flex-wrap gap-2 w-full md:w-auto" id="filterTabs">
-        <button data-filter="all" class="filter-tab active px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-ku-green text-white shadow-sm">
-          전체 보기 (6)
-        </button>
-        <button data-filter="bio" class="filter-tab px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
-          🧬 바이오 (2)
-        </button>
-        <button data-filter="pet" class="filter-tab px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
-          🐾 펫 (2)
-        </button>
-        <button data-filter="food" class="filter-tab px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200">
-          🌱 에코푸드 (2)
-        </button>
-      </div>
 
-      <!-- 실시간 검색 입력 -->
-      <div class="relative w-full md:w-72">
-        <input type="text" id="searchInput" placeholder="수상자명, 프로젝트 키워드 검색..." 
-               class="w-full pl-9 pr-4 py-2 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-ku-green focus:border-transparent transition-all shadow-sm placeholder:text-slate-400">
-        <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+    <!-- 비밀번호 입력 화면 -->
+    <div id="passwordGate" class="max-w-sm mx-auto bg-white rounded-2xl border border-slate-200 shadow-sm p-8 text-center">
+      <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-emerald-50 flex items-center justify-center text-ku-green">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
         </svg>
       </div>
+      <h2 class="text-base font-bold text-slate-900 mb-1">우수자 정보 열람</h2>
+      <p class="text-xs text-slate-500 mb-5">비밀번호를 입력하면 우수자 명단과 심사 내용을 확인할 수 있습니다.</p>
+      <form id="passwordForm" class="space-y-3">
+        <input type="password" id="passwordInput" inputmode="numeric" placeholder="비밀번호 입력"
+               class="w-full text-center tracking-widest px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-ku-green focus:border-transparent transition-all">
+        <button type="submit" class="w-full py-2.5 bg-ku-green hover:bg-ku-darkgreen text-white text-sm font-semibold rounded-xl transition-colors">
+          확인
+        </button>
+        <p id="passwordError" class="hidden text-xs text-red-500 pt-1">비밀번호가 올바르지 않습니다.</p>
+      </form>
     </div>
 
-    <!-- 수상작 카드 그리드 -->
-    <div id="winnersGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- JS로 동적 렌더링 -->
-    </div>
+    <!-- 우수자 정보 본문 (비밀번호 확인 전 숨김) -->
+    <div id="winnersContent" class="hidden">
 
-    <!-- 검색 결과 없을 때 화면 -->
-    <div id="emptyState" class="hidden text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300 my-6">
-      <div class="text-4xl mb-3">🔍</div>
-      <h3 class="text-base font-bold text-slate-700 mb-1">일치하는 수상 내역이 없습니다</h3>
-      <p class="text-sm text-slate-500">입력하신 검색어를 확인하거나 다른 트랙 필터를 선택해 주십시오.</p>
+      <!-- 공통 피드백: 전체적으로 보면 -->
+      <div class="mb-8 p-5 sm:p-6 rounded-2xl bg-emerald-50/70 border border-emerald-200">
+        <div class="flex items-center gap-2 mb-2.5 text-ku-green">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+          </svg>
+          <span class="text-sm font-bold">전체적으로 보면</span>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line">각 서비스마다 아이디어의 장점은 있지만, 초기에는 기능을 많이 넣기보다 실제로 돈을 내거나 반복해서 사용할 사람이 누구인지 먼저 확인하는 것이 중요해 보입니다.
+
+특히 다음 세 가지를 기준으로 다시 검토하면 좋겠습니다.
+1. 실제로 비용을 부담하는 사람이 누구인지
+2. 지금 당장 사용할 수 있는 기능이 무엇인지
+3. 2주에서 한 달 안에 사용 결과를 확인할 수 있는지
+
+MVP는 기능이 많다는 것보다, 고객이 실제로 사용하고 다시 찾는 이유가 분명한지가 더 중요합니다.</p>
+      </div>
+
+      <!-- 함께 경쟁한 수강생 안내 -->
+      <div class="mb-8 flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-500 bg-white border border-slate-200 rounded-xl px-4 py-3">
+        <span class="font-semibold text-slate-600">함께 경쟁한 수강생</span>
+        <span class="text-slate-300">|</span>
+        <span>🧬 바이오: 이윤수, 최한나</span>
+        <span class="text-slate-300">·</span>
+        <span>🐾 펫: 김선민, 강병창</span>
+        <span class="text-slate-300">·</span>
+        <span>🌱 에코푸드: 신희민, 남지현</span>
+      </div>
+
+      <!-- 검색 -->
+      <div class="flex justify-end mb-6">
+        <div class="relative w-full md:w-72">
+          <input type="text" id="searchInput" placeholder="수상자명, 프로젝트 키워드 검색..." 
+                 class="w-full pl-9 pr-4 py-2 text-base bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-ku-green focus:border-transparent transition-all shadow-sm placeholder:text-slate-400">
+          <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 수상작 트랙별 섹션 (바이오 → 펫 → 에코푸드, 각 트랙 1위/2위 순서로 표시) -->
+      <div id="winnersGrid" class="space-y-12 text-base">
+        <!-- JS로 동적 렌더링 -->
+      </div>
+
+      <!-- 검색 결과 없을 때 화면 -->
+      <div id="emptyState" class="hidden text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300 my-6">
+        <div class="text-4xl mb-3">🔍</div>
+        <h3 class="text-lg font-bold text-slate-700 mb-1">일치하는 수상 내역이 없습니다</h3>
+        <p class="text-base text-slate-500">입력하신 검색어를 확인해 주십시오.</p>
+      </div>
+
     </div>
 
   </main>
@@ -344,6 +380,46 @@
     </div>
   </div>
 
+  <!-- 개인별 피드백 모달 -->
+  <div id="feedbackModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity duration-200">
+    <div class="bg-white rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-100 flex flex-col transform transition-transform scale-95 duration-200" id="feedbackModalContainer">
+      <div class="p-6 border-b border-slate-100 flex items-start justify-between sticky top-0 bg-white z-10">
+        <div>
+          <span class="inline-flex items-center gap-1 mb-2 px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
+            📝 개별 피드백
+          </span>
+          <h3 id="feedbackModalName" class="text-xl font-bold text-slate-900 leading-snug">-</h3>
+        </div>
+        <button id="closeFeedbackModalBtn" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg transition-colors ml-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-5 flex-grow">
+        <div>
+          <h4 class="text-xs font-bold text-ku-green uppercase tracking-wider mb-2">시장성 개선</h4>
+          <p id="feedbackMarket" class="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line"></p>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-ku-green uppercase tracking-wider mb-2">실제 구현 및 실행방안</h4>
+          <p id="feedbackExecution" class="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line"></p>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-ku-green uppercase tracking-wider mb-2">초기 MVP 개선</h4>
+          <p id="feedbackMvp" class="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line"></p>
+        </div>
+      </div>
+
+      <div class="p-4 bg-slate-50 border-t border-slate-100 text-right">
+        <button id="feedbackModalConfirmBtn" class="px-5 py-2 bg-ku-green hover:bg-ku-darkgreen text-white text-sm font-semibold rounded-xl transition-colors">
+          확인 완료
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- 푸터 영역 -->
   <footer class="bg-white border-t border-slate-200 mt-12 py-8 text-center text-xs text-slate-500">
     <div class="max-w-7xl mx-auto px-4 space-y-2">
@@ -379,7 +455,12 @@
           { item: "MVP 완성도", max: 15, score: 13, comment: "실행 앱이 핵심 가치와 직접 연결되나 촬영 조건 재현성·임상검증은 후속 과제로 남음" },
           { item: "사업계획서 완성도", max: 15, score: 14, comment: "앱 링크와 사업계획서 PDF까지 필수 자료 누락 없이 깔끔하게 제출함" }
         ],
-        evalNote: "고령자 근감소증이라는 타깃과 문제 정의가 분명하고, 연구 근거와 앱 MVP가 가장 안정적으로 연결되어 있습니다. 기술력에서 판별 정확도에 대한 실 테스트 데이터가 있는지 궁금합니다. 고객 검증을 완료했다고 했는데 어떻게 진행중인지 다른 수강생들에게 리뷰해주면 좋을듯 합니다."
+        evalNote: "고령자 근감소증이라는 타깃과 문제 정의가 분명하고, 연구 근거와 앱 MVP가 가장 안정적으로 연결되어 있습니다. 기술력에서 판별 정확도에 대한 실 테스트 데이터가 있는지 궁금합니다. 고객 검증을 완료했다고 했는데 어떻게 진행중인지 다른 수강생들에게 리뷰해주면 좋을듯 합니다.",
+        feedback: {
+          market: "스마트폰과 줄자를 이용해 종아리 둘레를 측정하고 근감소증 위험을 확인한다는 아이디어는 고령층 건강관리라는 분명한 문제를 다루고 있습니다. 다만 실제로 돈을 내는 사람이 누구인지 먼저 정해야 합니다.\n\n고령자 본인이 직접 결제하는지, 자녀가 부모를 위해 결제하는지, 아니면 지자체나 복지기관이 비용을 부담하는지에 따라 서비스 형태가 달라집니다. 현재 설문 결과는 긍정적이지만, 실제 결제 의향이나 어느 기관의 예산으로 도입할 수 있는지는 아직 더 확인이 필요합니다.",
+          execution: "현재 계획은 근감소증 조기 진단이나 위험 판정으로 확장될 가능성이 있습니다. 이 경우 의료기기나 건강 관련 규정을 검토해야 할 수 있으므로, 초기 단계에서 먼저 확인하는 것이 좋겠습니다.\n\n처음에는 '질병을 진단한다'는 표현보다 다음과 같이 범위를 좁히는 방법이 안전해 보입니다.\n- 종아리 둘레와 간단한 운동능력 측정\n- 이전 측정값과 현재 상태 비교\n- 운동 습관과 식사 관리 안내\n- 병원이나 전문기관 상담이 필요한 경우 안내\n\n연구자료에서 좋은 수치가 나왔더라도, 실제 일반 사용자에게 그대로 적용된다고 보기는 어렵습니다. 따라서 위험 여부를 단정하기보다 사용자가 자신의 변화를 확인하고 운동을 계속하도록 돕는 쪽이 초기 서비스에 더 적합해 보입니다.",
+          mvp: "처음부터 진단 서비스로 만들기보다, 다음 기능으로 시작해보는 것이 좋겠습니다.\n- 종아리 둘레 측정\n- 의자에서 일어나기 등 간단한 움직임 기록\n- 측정 결과 저장\n- 한 달간 변화 확인\n- 맞춤형 운동 안내\n\n또한 지자체나 복지기관 담당자 3곳 정도와 이야기하면서 실제로 사용할 수 있는 예산 항목이 있는지 확인해보면 좋겠습니다. 사용 의향이 아니라 실제 집행 가능한 예산이 확인되어야 기관 대상 사업으로 연결하기 쉽습니다."
+        }
       },
       {
         id: "bio-2",
@@ -403,7 +484,12 @@
           { item: "MVP 완성도", max: 15, score: 12, comment: "검진값 입력→리포트→실천과제 흐름이 구현되었으나 자체 지표의 위험성이 남아있음" },
           { item: "사업계획서 완성도", max: 15, score: 14, comment: "PRD 문서가 버전관리·가설(H1~H3)·기능범위·안전성 기준까지 매우 체계적으로 정리됨" }
         ],
-        evalNote: "사업계획서와 PRD의 완성도가 높고 건강관리 서비스 흐름이 구체적입니다. 다만 장수점수의 임상적 타당성과 의료행위 경계는 보완 뿐 아니라 리스크 체크가 필요합니다. 또한 초기 구독모델은 재검토 필요합니다. (2위 동점자 대비 수업 적극성 또한 평가에 적극 반영)"
+        evalNote: "사업계획서와 PRD의 완성도가 높고 건강관리 서비스 흐름이 구체적입니다. 다만 장수점수의 임상적 타당성과 의료행위 경계는 보완 뿐 아니라 리스크 체크가 필요합니다. 또한 초기 구독모델은 재검토 필요합니다. (2위 동점자 대비 수업 적극성 또한 평가에 적극 반영)",
+        feedback: {
+          market: "PRD에는 건강정보 입력, 장수 점수, 주간 미션, 결제 기능 등이 비교적 자세히 정리되어 있습니다. 다만 처음 제출한 사업계획서와 PRD 사이의 내용 차이가 큰 편이라, 발표 때 본인이 서비스의 핵심 고객과 수익모델을 충분히 설명할 수 있는지 확인해보면 좋겠습니다.\n\n건강관리 서비스는 관심을 끌 수 있지만, 'AI 장수 점수'가 실제 건강상태를 판단하는 것처럼 받아들여질 가능성이 있습니다. 단순한 참고용 점수라고 하더라도 사용자가 의료적인 판단으로 받아들이지 않도록 표현을 조심할 필요가 있습니다.\n\n또한 건강기록을 입력하고 미션을 수행하는 서비스는 이미 비슷한 앱이 많기 때문에, 어떤 사용자가 왜 이 서비스를 계속 이용해야 하는지 더 분명하게 보여줘야 합니다.",
+          execution: "현재 계획에는 건강정보 입력, OCR, 점수화, 미션, 결제 등 많은 기능이 한 번에 들어가 있습니다. 처음부터 모두 구현하려고 하면 개발과 검증 범위가 너무 커질 수 있습니다.\n\n초기에는 다음 정도로 줄이는 것이 현실적입니다.\n- 건강정보 직접 입력\n- 기본적인 생활습관 점검\n- 일주일 단위 미션 1~2개\n- 미션 수행 결과 확인\n- 다음 주 행동 제안\n\n사용자 건강상태를 평가하는 표현보다는, 생활습관을 점검하고 행동을 돕는 서비스로 설명하는 편이 초기 운영에 부담이 적습니다.",
+          mvp: "처음에는 '장수 점수'보다 실제 행동 변화가 있었는지를 확인하는 것이 중요합니다.\n- 일주일에 몇 번 미션을 수행하는지\n- 사용자가 다음 주에도 다시 접속하는지\n- 건강정보 입력을 계속하는지\n- 유료 이용 의향이 있는지\n\n또한 한 페이지 사업계획서와 상세 PRD가 왜 다르게 작성되었는지 발표에서 자연스럽게 설명할 수 있도록 준비하면 좋겠습니다. 서비스 범위를 하나로 정리하고, 가장 먼저 검증할 기능을 정하는 것이 필요합니다."
+        }
       },
       {
         id: "pet-1",
@@ -427,7 +513,12 @@
           { item: "MVP 완성도", max: 15, score: 13, comment: "Gemini 연동, 이미지 재인코딩, Google Sheets 저장까지 실제 동작하는 end-to-end MVP를 구현함(단, 현장 Relay 실제 대응은 미검증)" },
           { item: "사업계획서 완성도", max: 15, score: 14, comment: "가치제안·5단계 흐름이 MVP 사용자 흐름과 그대로 일치하는 완성도 높은 문서" }
         ],
-        evalNote: "CatGuard는 부재 중 반려동물 관찰부터 보호자 판단과 현장 대응까지 핵심 흐름이 명확하고, 실제 작동하는 MVP와 근거자료가 잘 연결되어 있습니다. 다만, 실제 반려동물을 두고 며칠 부재시 집에 둘 것 같진 않습니다. 또한 보호자에게 즉시 연락되는 구조가 맞다고 보여지네요"
+        evalNote: "CatGuard는 부재 중 반려동물 관찰부터 보호자 판단과 현장 대응까지 핵심 흐름이 명확하고, 실제 작동하는 MVP와 근거자료가 잘 연결되어 있습니다. 다만, 실제 반려동물을 두고 며칠 부재시 집에 둘 것 같진 않습니다. 또한 보호자에게 즉시 연락되는 구조가 맞다고 보여지네요",
+        feedback: {
+          market: "고양이가 아프거나 이상 행동을 보일 때 보호자가 바로 알아차리기 어렵다는 문제는 분명히 있습니다. 다만 보호자가 매달 5,900원이나 9,900원을 내고 계속 사용할 만큼 불편함을 크게 느끼는지는 아직 확인이 필요해 보입니다.\n\n현재는 가족이나 지인에게 연락하거나, 펫시터·동물병원에 일시적으로 도움을 요청하는 방법도 있습니다. 따라서 일반 보호자 전체를 대상으로 하기보다는, 장기간 집을 비우는 보호자나 출장·여행이 잦은 보호자, 펫시터·펫호텔처럼 여러 고양이를 관리하는 사람을 먼저 고객으로 좁혀보는 것도 좋겠습니다.\n\n사업계획서의 매출 예상과 요금제를 함께 보면, 실제 결제 고객이 어느 정도 확보되어야 계획한 매출이 가능한지 다시 계산해볼 필요가 있습니다. 특히 개발비와 초기 운영비에 비해 초반 매출이 충분한지도 확인해야 합니다.",
+          execution: "현재 이미지 분석과 알림 기능은 어느 정도 구현되어 있지만, 보호자 대신 현장에 가서 확인해주는 기능은 실제 연결이라기보다 시뮬레이션에 가깝습니다. 따라서 처음부터 모든 기능을 운영하기보다는, 우선 이상 징후를 정확하게 알려주는 기능에 집중하는 것이 현실적입니다.\n\n이후 실제 사용자가 발생하면 다음 순서로 확장하는 방법이 좋아 보입니다.\n1. 이상 행동이나 건강 상태를 확인하는 기능\n2. 보호자에게 알림을 보내는 기능\n3. 필요할 때 펫시터나 주변 도움 요청으로 연결하는 기능",
+          mvp: "처음부터 월 구독 서비스를 크게 시작하기보다, 2주 정도 30가구를 대상으로 사용 테스트를 해보면 좋겠습니다.\n- 실제로 '누군가 방문해서 확인해줬으면 좋겠다'는 상황이 얼마나 발생하는지\n- 보호자가 알림을 유용하다고 느끼는지\n- 무료 기능만으로 충분하다고 느끼는지\n- 여행 기간에 한시적으로 비용을 지불할 의향이 있는지\n\n이 결과를 보고 월 구독을 유지할지, 여행이나 출장 때만 결제하는 이용권 형태로 바꿀지 결정하면 좋겠습니다. 현재 단계에서는 월 구독보다 '여행 중 안심 확인권' 같은 단기 상품이 더 쉽게 받아들여질 가능성도 있습니다."
+        }
       },
       {
         id: "pet-2",
@@ -451,7 +542,12 @@
           { item: "MVP 완성도", max: 15, score: 13, comment: "보호자·훈련사 양면이 실제 오픈된 배포 서비스로 구현되었으나 훈련사 응답률·거래 성사는 아직 검증되지 않음" },
           { item: "사업계획서 완성도", max: 15, score: 14, comment: "농림축산식품부·소방청·숨고 통계 등 공식 근거로 문제정의–차별화 논리까지 촘촘하게 연결됨" }
         ],
-        evalNote: "츄르월드는 보호자와 행동지도사를 연결하는 플랫폼 구조가 구체적이고 공식 근거가 강합니다. 다만 실제 훈련사 응답률과 거래 성사는 추가 검증이 필요합니다. 또한 훈련사 풀은 어디서 확보할지에 대한 부분이 궁금합니다."
+        evalNote: "츄르월드는 보호자와 행동지도사를 연결하는 플랫폼 구조가 구체적이고 공식 근거가 강합니다. 다만 실제 훈련사 응답률과 거래 성사는 추가 검증이 필요합니다. 또한 훈련사 풀은 어디서 확보할지에 대한 부분이 궁금합니다.",
+        feedback: {
+          market: "반려견 행동 문제와 훈련사 연결에 대한 수요는 있을 수 있습니다. 다만 현재 계획의 가장 큰 문제는 서비스를 이용할 수 있는 훈련사 수가 충분한지입니다.\n\n자료에 따르면 국가공인 반려동물 행동지도사 자격 보유자는 634명으로 많지 않습니다. 지역별로 보면 실제로 연결 가능한 훈련사가 한두 명뿐일 수도 있습니다. 이 경우 보호자가 원하는 시간과 지역에 맞는 훈련사를 찾기 어려워 서비스 이용 경험이 나빠질 수 있습니다.\n\n또한 현재는 보호자와 훈련사가 직접 결제하는 구조라서, 실제 거래가 이루어졌는지 플랫폼에서 확인하기 어렵습니다. 거래를 확인할 수 없으면 수익모델을 만들거나 서비스 이용률을 관리하기도 어렵습니다.",
+          execution: "처음부터 전국 단위 역경매 플랫폼으로 시작하기보다는, 한 지역에서 검증된 훈련사를 직접 모집해 연결하는 방식이 현실적입니다.\n\n초기에는 자격증 보유자만 고집하기보다 다음 조건을 함께 확인하는 방법도 있습니다.\n- 관련 자격증 보유 여부\n- 실제 훈련 경력\n- 활동 지역과 가능한 시간\n- 사고 발생 시 책임보험 가입 여부\n- 상담 및 훈련 후기\n\n이렇게 검증된 훈련사 몇 명을 먼저 확보한 뒤, 보호자 문의가 들어오면 운영자가 직접 연결해주는 방식으로 시작하면 문제를 빨리 확인할 수 있습니다.",
+          mvp: "역경매 기능은 초기 MVP에서 꼭 필요한 기능인지 다시 생각해볼 필요가 있습니다. 우선은 다음 정도로 단순화해도 충분합니다.\n- 보호자가 반려견 문제와 지역을 입력\n- 등록된 훈련사 중 조건에 맞는 사람을 추천\n- 상담 신청과 일정 조율\n- 상담이 끝난 뒤 후기 작성\n\n2주 동안 훈련사 20명 정도에게 연락해 실제로 활동 가능한 훈련사가 몇 명인지 확인해보는 것이 좋겠습니다. 최소 5명 이상이 실제 상담을 받을 수 있다고 답한다면 다음 단계로 넘어가고, 그렇지 않다면 보호자용 플랫폼보다 훈련사 일정관리·고객관리 서비스로 방향을 조정하는 것도 검토해볼 수 있습니다.\n\n정부 지원사업은 초기 운영비를 마련하는 데 도움이 될 수 있지만, 그 자체가 지속적인 매출은 아니므로 별도의 수익구조를 함께 준비해야 합니다."
+        }
       },
       {
         id: "food-1",
@@ -475,7 +571,12 @@
           { item: "MVP 완성도", max: 15, score: 10, comment: "실제 공장 데이터 연동과 폐기 감축 효과가 아직 검증되지 않아 MVP 점수를 제한함" },
           { item: "사업계획서 완성도", max: 15, score: 13, comment: "근거 자료와 가설 구분을 갖춘 사업계획서로 전반적인 연결성이 좋음" }
         ],
-        evalNote: "중소 식품공장의 폐기·재작업 문제를 명확히 정의하고 제조데이터 근거와 사업계획서를 잘 연결했습니다. 실제 공장 데이터 연동과 감축 효과는 추가 검증이 필요합니다. 일부 타겟 제조사를 지정했는데 실현 가능한 수준인지 궁금합니다."
+        evalNote: "중소 식품공장의 폐기·재작업 문제를 명확히 정의하고 제조데이터 근거와 사업계획서를 잘 연결했습니다. 실제 공장 데이터 연동과 감축 효과는 추가 검증이 필요합니다. 일부 타겟 제조사를 지정했는데 실현 가능한 수준인지 궁금합니다.",
+        feedback: {
+          market: "식품 제조 현장의 원재료 손실과 생산관리 문제를 다룬다는 점은 분명한 장점이 있습니다. 특히 식품안전 판정까지 무리하게 다루지 않고, 먼저 생산 과정의 손실 원인을 보여주는 데 집중한 점은 현실적인 접근으로 보입니다.\n\n다만 공장마다 기록 방식과 관리 항목이 다를 수 있어, 실제 데이터를 받아도 바로 의미 있는 분석이 가능한지는 확인이 필요합니다. 생산량이나 불량률이 일정하지 않은 상황에서는 일부 자료만으로 원인을 단정하기 어려울 수도 있습니다.\n\n처음부터 완전한 SaaS로 판매하기보다, 초기에는 한 공장의 자료를 받아 직접 분석해주는 보고서나 관리 서비스로 시작하는 방법도 생각해볼 수 있습니다. 현장에서 실제로 비용을 지불할 의사가 있는지 먼저 확인한 뒤 자동화 범위를 넓히는 방식입니다.",
+          execution: "현재 MVP는 API 연결 없이 브라우저에서 규칙 기반으로 결과를 보여주는 형태입니다. 이 정도면 아이디어를 설명하는 데는 도움이 되지만, 실제 공장 도입을 위해서는 데이터 이전과 보안 문제가 중요합니다.\n\n먼저 다음 내용을 확인해야 합니다.\n- 어떤 데이터를 받을 수 있는지\n- 엑셀이나 기존 시스템에서 자료를 옮길 수 있는지\n- 외부 서비스에 데이터를 제공해도 되는지\n- 여러 공정의 데이터를 함께 비교할 수 있는지\n- 분석 결과를 누가 어떻게 활용할지",
+          mvp: "처음부터 여러 공장을 대상으로 하기보다, 한 공장의 최근 6개월 자료를 받아 수작업으로 분석해보는 것이 좋겠습니다.\n- 실제로 손실이 큰 공정이 확인되는지\n- 현장 담당자가 분석 결과를 이해하는지\n- 개선 전후의 차이를 측정할 수 있는지\n- 담당자가 비용을 지불할 의향이 있는지\n\n3개 공장에 제안해서 2곳 이상이 데이터 제공에 동의하고, 한 곳이라도 실제 보고서 결과를 다음 업무에 활용한다면 다음 단계로 넘어갈 수 있습니다. 이후 반복되는 분석 작업부터 자동화하면 개발 범위를 줄일 수 있습니다."
+        }
       },
       {
         id: "food-2",
@@ -499,17 +600,20 @@
           { item: "MVP 완성도", max: 15, score: 9, comment: "실제 농가가 사용할 수 있는 사료 추천·비용 비교 기능이 충분히 구현되지 않아 MVP 점수를 제한함" },
           { item: "사업계획서 완성도", max: 15, score: 15, comment: "정책 근거와 사업계획서 구성이 강함" }
         ],
-        evalNote: "저메탄 사료 도입 문제와 정책 근거가 구체적이고 계획서 완성도가 높습니다. 다만 농가용 추천 기능의 실제 작동성과 농가 지불의사는 아직 검증되지 않았습니다. 지불의사를 평가하기전, 해당 서비스에 대한 니즈 확보에 대한 가설 검증이 우선되어야한다고 보여집니다."
+        evalNote: "저메탄 사료 도입 문제와 정책 근거가 구체적이고 계획서 완성도가 높습니다. 다만 농가용 추천 기능의 실제 작동성과 농가 지불의사는 아직 검증되지 않았습니다. 지불의사를 평가하기전, 해당 서비스에 대한 니즈 확보에 대한 가설 검증이 우선되어야한다고 보여집니다.",
+        feedback: {
+          market: "축산 분야에서 온실가스 감축과 저메탄 사료에 대한 관심은 커질 수 있습니다. 또한 보조금 제도가 있다는 점도 시장을 시작할 수 있는 계기가 될 수 있습니다.\n\n다만 현재 자료만으로는 농가가 실제로 사료 비교 서비스에 비용을 지불할지, 그리고 저메탄 사료의 가격과 공급이 안정적인지 확인하기 어렵습니다. 저메탄 사료가 아직 상용화 초기 단계라면, 농가 입장에서는 제품을 비교하기 전에 제품 자체를 구하기 어려울 수도 있습니다.\n\n농가가 매달 SaaS 이용료를 내는 구조보다는, 사료회사·농협·축산 컨설턴트가 서비스를 이용하고 농가에 제공하는 방식이 더 현실적일 가능성도 있습니다.",
+          execution: "초기에는 모든 사료를 비교하고 최적의 제품을 추천하기보다, 다음처럼 범위를 줄이는 방법이 좋겠습니다.\n- 사료 성분과 가격 비교\n- 농가 조건에 맞는 후보 제품 정리\n- 보조금 신청에 필요한 자료 관리\n- 급여 기록과 증빙자료 저장\n\n특히 현재 보조금 규모를 고려하면, 농가가 사료 선택 자체보다 신청서 작성과 급여기록 관리에서 더 큰 불편을 느끼는지 확인해볼 필요가 있습니다. 이 문제가 더 크다면 추천 서비스보다 보조금 신청과 증빙자료 관리 서비스로 방향을 조정하는 것도 방법입니다.",
+          mvp: "먼저 축산농가 5곳 정도와 이야기하면서 실제 불편이 무엇인지 확인하면 좋겠습니다.\n- 사료 가격 정보가 가장 필요한지\n- 제품 비교가 어려운지\n- 보조금 신청이 어려운지\n- 급여기록과 증빙자료 관리가 어려운지\n\n5곳 중 3곳 이상이 가격과 제품 비교를 가장 큰 문제라고 답하면 현재 방향을 유지할 수 있습니다. 반대로 신청서 작성이나 기록 관리에 대한 요구가 더 크다면, 초기 MVP는 추천 기능보다 서류와 기록 관리 기능부터 만드는 것이 현실적일 수 있습니다.\n\n현재 계획은 자료 구성과 비교 기준은 잘 정리되어 있지만, 고객이 실제로 돈을 낼 대상과 수익모델은 조금 더 확인해볼 필요가 있습니다."
+        }
       }
     ];
 
-    let currentFilter = 'all';
     let searchQuery = '';
 
     const winnersGrid = document.getElementById('winnersGrid');
     const emptyState = document.getElementById('emptyState');
     const searchInput = document.getElementById('searchInput');
-    const filterButtons = document.querySelectorAll('.filter-tab');
 
     // 모달 DOM 참조
     const detailModal = document.getElementById('detailModal');
@@ -590,77 +694,101 @@
       }
     }
 
-    // 카드 렌더링 함수
-    function renderWinners() {
-      const filtered = winnersData.filter(item => {
-        const matchesCategory = (currentFilter === 'all' || item.category === currentFilter);
-        const q = searchQuery.toLowerCase().trim();
-        const matchesSearch = !q || 
-          item.awardee.toLowerCase().includes(q) || 
-          item.team.toLowerCase().includes(q) || 
-          item.title.toLowerCase().includes(q) || 
-          item.categoryName.toLowerCase().includes(q);
-        return matchesCategory && matchesSearch;
-      });
+    // 카드 렌더링 함수 (트랙 고정 순서: 바이오 → 펫 → 에코푸드, 각 트랙 내 1위 → 2위)
+    const TRACK_ORDER = [
+      { key: 'bio', label: '🧬 바이오 (Bio)' },
+      { key: 'pet', label: '🐾 펫 (Pet)' },
+      { key: 'food', label: '🌱 에코푸드 (Eco-Food)' }
+    ];
 
-      if (filtered.length === 0) {
+    function renderCard(item) {
+      const isFirst = item.rank === 1;
+      return `
+        <div class="group bg-white rounded-2xl overflow-hidden border ${isFirst ? 'border-amber-300 shadow-md hover:shadow-xl ring-1 ring-amber-200' : 'border-slate-200 shadow-sm hover:shadow-md'} transition-all duration-300 flex flex-col justify-between hover:-translate-y-1">
+          <div class="p-6 sm:p-7">
+            <!-- 헤더: 카테고리 태그 및 등수 배지 -->
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-semibold bg-emerald-50 text-ku-green border border-emerald-200">
+                ${item.categoryName}
+              </span>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-black tracking-wide border shadow-sm ${item.rankBadgeBg}">
+                ${isFirst ? '🥇 ' : '🥈 '}${item.rankLabel}
+              </span>
+            </div>
+
+            <!-- 수강생 이름 (크게 강조) -->
+            <p class="text-2xl sm:text-3xl font-black text-slate-900 mb-1">
+              ${item.awardee} <span class="text-base sm:text-lg font-semibold text-slate-500">(${item.team})</span>
+            </p>
+
+            <!-- 프로젝트 타이틀 -->
+            <h3 class="text-lg font-bold text-slate-700 leading-snug group-hover:text-ku-green transition-colors mb-3">
+              ${item.title}
+            </h3>
+
+            <!-- 요약 설명 -->
+            <p class="text-base text-slate-600 leading-relaxed mb-5">
+              ${item.summary}
+            </p>
+
+            <!-- 기술 태그 미리보기 -->
+            <div class="flex flex-wrap gap-1.5 mb-4">
+              ${item.techStack.slice(0, 2).map(t => `<span class="text-sm bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-md">${t}</span>`).join('')}
+              ${item.techStack.length > 2 ? `<span class="text-sm text-slate-400 self-center">+${item.techStack.length - 2}</span>` : ''}
+            </div>
+          </div>
+
+          <!-- 하단 버튼 -->
+          <div class="px-6 sm:px-7 py-4 bg-slate-50 border-t border-slate-100 flex items-center flex-wrap gap-2">
+            ${item.mvpUrl ? `
+            <a href="${item.mvpUrl}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg text-sm font-bold bg-ku-green text-white hover:bg-ku-darkgreen transition-colors shadow-2xs">
+              MVP
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            </a>` : ''}
+            <button onclick="openModal('${item.id}')" class="px-3.5 py-2 rounded-lg text-sm font-bold bg-white border border-slate-200 text-slate-700 hover:bg-ku-green hover:text-white hover:border-ku-green transition-colors shadow-2xs">
+              상세보기
+            </button>
+            ${item.feedback ? `
+            <button onclick="openFeedbackModal('${item.id}')" class="px-3.5 py-2 rounded-lg text-sm font-bold bg-white border border-amber-300 text-amber-700 hover:bg-amber-400 hover:text-white hover:border-amber-400 transition-colors shadow-2xs">
+              피드백
+            </button>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderWinners() {
+      const q = searchQuery.toLowerCase().trim();
+      const matchesSearch = (item) => !q ||
+        item.awardee.toLowerCase().includes(q) ||
+        item.team.toLowerCase().includes(q) ||
+        item.title.toLowerCase().includes(q) ||
+        item.categoryName.toLowerCase().includes(q);
+
+      const sections = TRACK_ORDER.map(track => {
+        const items = winnersData
+          .filter(item => item.category === track.key && matchesSearch(item))
+          .sort((a, b) => a.rank - b.rank);
+        return { ...track, items };
+      }).filter(section => section.items.length > 0);
+
+      if (sections.length === 0) {
         winnersGrid.innerHTML = '';
         emptyState.classList.remove('hidden');
         return;
       }
 
       emptyState.classList.add('hidden');
-      winnersGrid.innerHTML = filtered.map(item => {
-        const isFirst = item.rank === 1;
-        return `
-          <div class="group bg-white rounded-2xl overflow-hidden border ${isFirst ? 'border-amber-300 shadow-md hover:shadow-xl ring-1 ring-amber-200' : 'border-slate-200 shadow-sm hover:shadow-md'} transition-all duration-300 flex flex-col justify-between hover:-translate-y-1">
-            <div class="p-6">
-              <!-- 헤더: 카테고리 태그 및 등수 배지 -->
-              <div class="flex items-center justify-between gap-2 mb-4">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-ku-green border border-emerald-200">
-                  ${item.categoryName}
-                </span>
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black tracking-wide border shadow-sm ${item.rankBadgeBg}">
-                  ${isFirst ? '🥇 ' : '🥈 '}${item.rankLabel}
-                </span>
-              </div>
-
-              <!-- 프로젝트 타이틀 -->
-              <h3 class="text-base font-bold text-slate-900 leading-snug line-clamp-2 group-hover:text-ku-green transition-colors mb-3">
-                ${item.title}
-              </h3>
-
-              <!-- 요약 설명 -->
-              <p class="text-xs sm:text-sm text-slate-600 line-clamp-3 leading-relaxed mb-5">
-                ${item.summary}
-              </p>
-
-              <!-- 기술 태그 미리보기 -->
-              <div class="flex flex-wrap gap-1 mb-4">
-                ${item.techStack.slice(0, 2).map(t => `<span class="text-[11px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md">${t}</span>`).join('')}
-                ${item.techStack.length > 2 ? `<span class="text-[11px] text-slate-400 self-center">+${item.techStack.length - 2}</span>` : ''}
-              </div>
-            </div>
-
-            <!-- 하단 정보 및 버튼 -->
-            <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
-              <div class="min-w-0">
-                <p class="text-xs font-bold text-slate-900 truncate">${item.awardee} <span class="font-normal text-slate-500">(${item.team})</span></p>
-              </div>
-              <div class="flex items-center gap-1.5 shrink-0">
-                ${item.mvpUrl ? `
-                <a href="${item.mvpUrl}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold bg-ku-green text-white hover:bg-ku-darkgreen transition-colors shadow-2xs">
-                  MVP
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                </a>` : ''}
-                <button onclick="openModal('${item.id}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:bg-ku-green hover:text-white hover:border-ku-green transition-colors shadow-2xs">
-                  상세보기
-                </button>
-              </div>
-            </div>
+      winnersGrid.innerHTML = sections.map(section => `
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900 mb-5 pb-2 border-b-2 border-ku-green/20">
+            ${section.label}
+          </h2>
+          <div class="grid grid-cols-1 gap-6">
+            ${section.items.map(renderCard).join('')}
           </div>
-        `;
-      }).join('');
+        </div>
+      `).join('');
     }
 
     // 모달 열기 함수
@@ -731,24 +859,52 @@
       }, 150);
     }
 
+    // 개별 피드백 모달 DOM 참조
+    const feedbackModal = document.getElementById('feedbackModal');
+    const feedbackModalContainer = document.getElementById('feedbackModalContainer');
+    const closeFeedbackModalBtn = document.getElementById('closeFeedbackModalBtn');
+    const feedbackModalConfirmBtn = document.getElementById('feedbackModalConfirmBtn');
+    const feedbackModalName = document.getElementById('feedbackModalName');
+    const feedbackMarket = document.getElementById('feedbackMarket');
+    const feedbackExecution = document.getElementById('feedbackExecution');
+    const feedbackMvp = document.getElementById('feedbackMvp');
+
+    // 개별 피드백 모달 열기 함수
+    window.openFeedbackModal = function(id) {
+      const item = winnersData.find(w => w.id === id);
+      if (!item || !item.feedback) return;
+
+      feedbackModalName.textContent = `${item.awardee} — ${item.team}`;
+      feedbackMarket.textContent = item.feedback.market || '';
+      feedbackExecution.textContent = item.feedback.execution || '';
+      feedbackMvp.textContent = item.feedback.mvp || '';
+
+      feedbackModal.classList.remove('hidden');
+      setTimeout(() => {
+        feedbackModalContainer.classList.remove('scale-95');
+        feedbackModalContainer.classList.add('scale-100');
+      }, 10);
+    };
+
+    // 개별 피드백 모달 닫기 함수
+    function closeFeedbackModal() {
+      feedbackModalContainer.classList.remove('scale-100');
+      feedbackModalContainer.classList.add('scale-95');
+      setTimeout(() => {
+        feedbackModal.classList.add('hidden');
+      }, 150);
+    }
+
+    closeFeedbackModalBtn.addEventListener('click', closeFeedbackModal);
+    feedbackModalConfirmBtn.addEventListener('click', closeFeedbackModal);
+    feedbackModal.addEventListener('click', (e) => {
+      if (e.target === feedbackModal) closeFeedbackModal();
+    });
+
     closeModalBtn.addEventListener('click', closeModal);
     modalConfirmBtn.addEventListener('click', closeModal);
     detailModal.addEventListener('click', (e) => {
       if (e.target === detailModal) closeModal();
-    });
-
-    // 탭 필터링 이벤트
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterButtons.forEach(b => {
-          b.classList.remove('active', 'bg-ku-green', 'text-white');
-          b.classList.add('bg-white', 'text-slate-600');
-        });
-        btn.classList.add('active', 'bg-ku-green', 'text-white');
-        btn.classList.remove('bg-white', 'text-slate-600');
-        currentFilter = btn.getAttribute('data-filter');
-        renderWinners();
-      });
     });
 
     // 검색 이벤트
@@ -859,22 +1015,51 @@
       }
     }
 
-    // 애플리케이션 시작 & 5초 주기 자동 폭죽 타이머 등록
+    // 우수자 정보 비밀번호 게이트
+    const WINNERS_PASSWORD = '9876';
+    const passwordGate = document.getElementById('passwordGate');
+    const winnersContent = document.getElementById('winnersContent');
+    const passwordForm = document.getElementById('passwordForm');
+    const passwordInput = document.getElementById('passwordInput');
+    const passwordError = document.getElementById('passwordError');
+    let confettiIntervalStarted = false;
+
+    function unlockWinnersContent() {
+      passwordGate.classList.add('hidden');
+      winnersContent.classList.remove('hidden');
+
+      if (!confettiIntervalStarted) {
+        confettiIntervalStarted = true;
+        // 인증 성공 600ms 뒤 축하 효과 1회 즉시 실행
+        setTimeout(() => {
+          triggerConfetti();
+        }, 600);
+
+        // 정확히 5초(5000ms) 간격으로 자동 폭죽 발사 (브라우저 탭이 활성화되어 있을 때 실행)
+        setInterval(() => {
+          if (!document.hidden) {
+            triggerConfetti();
+          }
+        }, 5000);
+      }
+    }
+
+    passwordForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (passwordInput.value.trim() === WINNERS_PASSWORD) {
+        passwordError.classList.add('hidden');
+        unlockWinnersContent();
+      } else {
+        passwordError.classList.remove('hidden');
+        passwordInput.value = '';
+        passwordInput.focus();
+      }
+    });
+
+    // 애플리케이션 시작 (렌더링은 미리 준비, 우수자 정보는 비밀번호 인증 후 공개)
     window.addEventListener('DOMContentLoaded', () => {
       renderWinners();
       initHeroMotion();
-
-      // 최초 접속 후 600ms 뒤 축하 효과 1회 즉시 실행
-      setTimeout(() => {
-        triggerConfetti();
-      }, 600);
-
-      // 정확히 5초(5000ms) 간격으로 자동 폭죽 발사 (브라우저 탭이 활성화되어 있을 때 실행)
-      setInterval(() => {
-        if (!document.hidden) {
-          triggerConfetti();
-        }
-      }, 5000);
     });
   </script>
 </body>
