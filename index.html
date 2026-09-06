@@ -1899,10 +1899,17 @@ Bio-Target Alert Bot (부제: AI 기반 바이오 타깃 실시간 글로벌 특
     const passwordForm = document.getElementById('passwordForm');
     const passwordInput = document.getElementById('passwordInput');
     const passwordError = document.getElementById('passwordError');
+    let confettiIntervalId = null;
 
     function unlockWinnersContent() {
       passwordGate.classList.add('hidden');
       winnersContent.classList.remove('hidden');
+
+      // 인증 성공 시 자동 폭죽 발사를 완전히 정지
+      if (confettiIntervalId !== null) {
+        clearInterval(confettiIntervalId);
+        confettiIntervalId = null;
+      }
     }
 
     passwordForm.addEventListener('submit', (e) => {
@@ -1918,7 +1925,7 @@ Bio-Target Alert Bot (부제: AI 기반 바이오 타깃 실시간 글로벌 특
     });
 
     // 애플리케이션 시작 (렌더링은 미리 준비, 우수자 정보는 비밀번호 인증 후 공개)
-    // 폭죽 효과는 비밀번호 입력 전부터 좌우상하에서 계속 터지도록 즉시 시작
+    // 폭죽 효과는 비밀번호 입력 전에만 좌우상하에서 계속 터지고, 인증 성공 시 즉시 정지됨
     window.addEventListener('DOMContentLoaded', () => {
       renderWinners();
       initHeroMotion();
@@ -1929,7 +1936,7 @@ Bio-Target Alert Bot (부제: AI 기반 바이오 타깃 실시간 글로벌 특
       }, 600);
 
       // 정확히 5초(5000ms) 간격으로 자동 폭죽 발사 (브라우저 탭이 활성화되어 있을 때 실행)
-      setInterval(() => {
+      confettiIntervalId = setInterval(() => {
         if (!document.hidden) {
           triggerConfetti();
         }
